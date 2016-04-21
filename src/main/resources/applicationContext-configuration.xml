@@ -94,9 +94,7 @@
 		<property name="jpaProperties">
 			<props>
 				<!-- 自定义方言 -->
-				<prop key="hibernate.dialect">
-					com.shopping.core.dialect.SystemMySQL5Dialect
-				</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<!-- 二级缓存配置 -->
 				<prop key="hibernate.cache.provider_class">
 					net.sf.ehcache.hibernate.SingletonEhCacheProvider

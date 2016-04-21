@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import org.apache.poi.hssf.record.formula.functions.T;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
@@ -23,7 +22,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 public class ExcelUnit
 {
-  public static void exportExcel(String title, String[] headers, Collection<T> dataset, OutputStream out, String pattern)
+  public static <T> void exportExcel(String title, String[] headers, Collection<T> dataset, OutputStream out, String pattern)
   {
     HSSFWorkbook workbook = new HSSFWorkbook();
 
