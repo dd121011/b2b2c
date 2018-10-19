@@ -1,6 +1,39 @@
  package com.shopping.manage.admin.action;
  
- import com.shopping.core.annotation.Log;
+ import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.methods.PostMethod;
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.Authentication;
+//import org.springframework.security.context.SecurityContext;
+//import org.springframework.security.context.SecurityContextHolder;
+//import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.shopping.core.annotation.Log;
 import com.shopping.core.annotation.SecurityMapping;
 import com.shopping.core.mv.JModelAndView;
 import com.shopping.core.security.support.SecurityUserHolder;
@@ -24,37 +57,6 @@ import com.shopping.foundation.service.IUserService;
 import com.shopping.manage.admin.tools.MsgTools;
 import com.shopping.manage.admin.tools.StatTools;
 import com.shopping.uc.api.UCClient;
-
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.Authentication;
-import org.springframework.security.context.SecurityContext;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.ModelAndView;
  
  @Controller
  public class BaseManageAction
@@ -611,13 +613,15 @@ import org.springframework.web.servlet.ModelAndView;
    {
      User user = SecurityUserHolder.getCurrentUser();
      if (user != null) {
+//       Authentication authentication = new UsernamePasswordAuthenticationToken(
+//         SecurityContextHolder.getContext().getAuthentication().getPrincipal(), 
+//    	 SecurityContextHolder.getContext().getAuthentication().getCredentials(),user.get_common_Authorities());
+    	 //below updated-------------------------------------------------------------
        Authentication authentication = new UsernamePasswordAuthenticationToken(
-         SecurityContextHolder.getContext().getAuthentication()
-         .getPrincipal(), SecurityContextHolder.getContext()
-         .getAuthentication().getCredentials(), 
-         user.get_common_Authorities());
-       SecurityContextHolder.getContext()
-         .setAuthentication(authentication);
+         SecurityContextHolder.getContext().getAuthentication().getPrincipal(), 
+         SecurityContextHolder.getContext().getAuthentication().getCredentials());
+       //---------------------------------------------------------------------------
+       SecurityContextHolder.getContext().setAuthentication(authentication);
      }
      return "redirect:../index.htm";
    }
