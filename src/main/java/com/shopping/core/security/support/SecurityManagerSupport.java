@@ -1,24 +1,26 @@
  package com.shopping.core.security.support;
  
- import com.shopping.core.security.SecurityManager;
- import com.shopping.foundation.domain.Res;
- import com.shopping.foundation.domain.Role;
- import com.shopping.foundation.domain.User;
- import com.shopping.foundation.service.IResService;
- import com.shopping.foundation.service.IUserService;
  import java.util.HashMap;
- import java.util.HashSet;
- import java.util.Iterator;
- import java.util.List;
- import java.util.Map;
- import java.util.Set;
- import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.dao.DataAccessException;
- import org.springframework.security.GrantedAuthority;
- import org.springframework.security.GrantedAuthorityImpl;
- import org.springframework.security.userdetails.UserDetails;
- import org.springframework.security.userdetails.UserDetailsService;
- import org.springframework.security.userdetails.UsernameNotFoundException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
+import com.shopping.core.security.SecurityManager;
+import com.shopping.foundation.domain.Res;
+import com.shopping.foundation.domain.Role;
+import com.shopping.foundation.domain.User;
+import com.shopping.foundation.service.IResService;
+import com.shopping.foundation.service.IUserService;
  
  public class SecurityManagerSupport
    implements UserDetailsService, SecurityManager
@@ -55,12 +57,12 @@
        while (roleIterator.hasNext()) {
          Role role = (Role)roleIterator.next();
          if (loginRole.equalsIgnoreCase("ADMIN")) {
-           GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(
+           GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(
              role.getRoleCode().toUpperCase());
            authorities.add(grantedAuthority);
          }
          else if (!role.getType().equals("ADMIN")) {
-           GrantedAuthority grantedAuthority = new GrantedAuthorityImpl(
+           GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(
              role.getRoleCode().toUpperCase());
            authorities.add(grantedAuthority);
          }
