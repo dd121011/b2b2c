@@ -3,7 +3,7 @@ java 开源b2b2c多用户电商平台---正在升级...欢迎大神参与
 qq群:706132929
 环境需知
 ===
-* 请确保 `mysql` 数据库编码为 `utf-8`  java jdk 版本为 `1.6` 或 `1.7` 推荐 `1.7` 版本
+* 请确保 `mysql` 数据库编码为 `utf-8`  java jdk 版本为 `1.6` 或 `1.7` 推荐 `1.8` 版本
   * mysql数据库编码查看
     * bash `SHOW VARIABLES LIKE 'character%'`
   * 出现乱码请检查数据库字符编码
