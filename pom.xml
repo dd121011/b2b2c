@@ -7,18 +7,20 @@
 	<packaging>war</packaging>
 	<version>0.0.1</version>
 	<description>shopping</description>
-    <url>https://github.com/dounine/b2b2c</url>
+    <url>https://github.com/dd121011/b2b2c</url>
     <inceptionYear>2016-04-20</inceptionYear>
-<!-- test -->
+
 	<name>shopping</name>
 
 	<properties>
 	  	<argLine>-Dfile.encoding=UTF-8</argLine>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jdk.version>1.7</jdk.version>
+		<jdk.version>1.8</jdk.version>
 		<maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
 		<mysql.version>5.1.36</mysql.version>
 		<fastjson.version>1.2.8</fastjson.version>
+		<!-- Hibernate -->
+		<org.hibernate-version>5.2.0.Final</org.hibernate-version>
 	  </properties>
 
 	<dependencies>
@@ -190,27 +192,53 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/easyjf-jweb-0.9.0.jar</systemPath>
 		</dependency>
-		<dependency>
-			<groupId>ehcache-core-2.4.6.jar</groupId>
-			<artifactId>ehcache-core-2.4.6.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ehcache-core-2.4.6.jar</systemPath>
+<!-- 		<dependency> -->
+<!-- 			<groupId>ehcache-core-2.4.6.jar</groupId> -->
+<!-- 			<artifactId>ehcache-core-2.4.6.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ehcache-core-2.4.6.jar</systemPath> -->
+<!-- 		</dependency> -->
+			<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache-core -->
+<!-- 			<dependency> -->
+<!-- 			    <groupId>net.sf.ehcache</groupId> -->
+<!-- 			    <artifactId>ehcache-core</artifactId> -->
+<!-- 			    <version>2.6.10</version> -->
+<!-- 			</dependency> -->
+
+			<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
+<!-- 			<dependency> -->
+<!-- 			    <groupId>net.sf.ehcache</groupId> -->
+<!-- 			    <artifactId>ehcache</artifactId> -->
+<!-- 			    <version>2.10.5</version> -->
+<!-- 			</dependency> -->
+			<!-- https://mvnrepository.com/artifact/org.ehcache/ehcache -->
+<!-- 			<dependency> -->
+<!-- 			    <groupId>org.ehcache</groupId> -->
+<!-- 			    <artifactId>ehcache</artifactId> -->
+<!-- 			    <version>3.6.0</version> -->
+<!-- 			</dependency> -->
+			
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>ehcache-terracotta-2.4.6.jar</groupId> -->
+<!-- 			<artifactId>ehcache-terracotta-2.4.6.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ehcache-terracotta-2.4.6.jar</systemPath> -->
+<!-- 		</dependency> -->
+	<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-web</artifactId>
+			<version>2.0.4</version>
 		</dependency>
-		<dependency>
-			<groupId>ehcache-terracotta-2.4.6.jar</groupId>
-			<artifactId>ehcache-terracotta-2.4.6.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ehcache-terracotta-2.4.6.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>ehcache-web-2.0.4.jar</groupId>
-			<artifactId>ehcache-web-2.0.4.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ehcache-web-2.0.4.jar</systemPath>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>ehcache-web-2.0.4.jar</groupId> -->
+<!-- 			<artifactId>ehcache-web-2.0.4.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/ehcache-web-2.0.4.jar</systemPath> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>ezmorph-1.0.6.jar</groupId>
 			<artifactId>ezmorph-1.0.6.jar</artifactId>
@@ -225,41 +253,69 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/filterbuilder.jar</systemPath>
 		</dependency>
-		<dependency>
-			<groupId>hibernate-3.2.2.ga.jar</groupId>
-			<artifactId>hibernate-3.2.2.ga.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hibernate-3.2.2.ga.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>hibernate-annotations.jar</groupId>
-			<artifactId>hibernate-annotations.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hibernate-annotations.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>hibernate-commons-annotations.jar</groupId>
-			<artifactId>hibernate-commons-annotations.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hibernate-commons-annotations.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>hibernate-entitymanager.jar</groupId>
-			<artifactId>hibernate-entitymanager.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hibernate-entitymanager.jar</systemPath>
-		</dependency>
-		<dependency>
-			<groupId>hibernate3.jar</groupId>
-			<artifactId>hibernate3.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hibernate3.jar</systemPath>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>hibernate-3.2.2.ga.jar</groupId> -->
+<!-- 			<artifactId>hibernate-3.2.2.ga.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hibernate-3.2.2.ga.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>hibernate-annotations.jar</groupId> -->
+<!-- 			<artifactId>hibernate-annotations.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hibernate-annotations.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>hibernate-commons-annotations.jar</groupId> -->
+<!-- 			<artifactId>hibernate-commons-annotations.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hibernate-commons-annotations.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>hibernate-entitymanager.jar</groupId> -->
+<!-- 			<artifactId>hibernate-entitymanager.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hibernate-entitymanager.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>hibernate3.jar</groupId> -->
+<!-- 			<artifactId>hibernate3.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/hibernate3.jar</systemPath> -->
+<!-- 		</dependency> -->
+			<!-- hibernate5 -->
+			<dependency>  
+	            <groupId>org.hibernate</groupId>  
+	            <artifactId>hibernate-core</artifactId>  
+	            <version>5.2.12.Final</version>  
+	        </dependency>  
+	        <dependency>  
+	            <groupId>org.hibernate</groupId>  
+	            <artifactId>hibernate-entitymanager</artifactId>  
+	            <version>5.2.12.Final</version>  
+	        </dependency>  
+	        <dependency>  
+	            <groupId>org.hibernate</groupId>  
+	            <artifactId>hibernate-ehcache</artifactId>  
+	            <version>5.2.12.Final</version>  
+	        </dependency>  
+<!-- 			<dependency> -->
+<!-- 			 <groupId>org.hibernate</groupId> -->
+<!-- 			 <artifactId>hibernate-ehcache</artifactId> -->
+<!-- 			 <version>5.2.12.Final</version> -->
+<!-- 			 <exclusions> -->
+<!-- 			     <exclusion> -->
+<!-- 			         <groupId>net.sf.ehcache</groupId> -->
+<!-- 			         <artifactId>ehcache</artifactId> -->
+<!-- 			     </exclusion> -->
+<!-- 			 </exclusions> -->
+<!-- 			</dependency> -->
+
 		<dependency>
 			<groupId>htmllexer.jar</groupId>
 			<artifactId>htmllexer.jar</artifactId>
@@ -501,125 +557,227 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/sitecapturer.jar</systemPath>
 		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>slf4j-api-1.6.1.jar</groupId> -->
+<!-- 			<artifactId>slf4j-api-1.6.1.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/slf4j-api-1.6.1.jar</systemPath> -->
+<!-- 		</dependency> -->
+		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
-			<groupId>slf4j-api-1.6.1.jar</groupId>
-			<artifactId>slf4j-api-1.6.1.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/slf4j-api-1.6.1.jar</systemPath>
+		    <groupId>org.slf4j</groupId>
+		    <artifactId>slf4j-api</artifactId>
+		    <version>1.8.0-alpha2</version>
+		</dependency>
+
+<!-- 		<dependency> -->
+<!-- 			<groupId>slf4j-jdk14-1.6.1.jar</groupId> -->
+<!-- 			<artifactId>slf4j-jdk14-1.6.1.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/slf4j-jdk14-1.6.1.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-jdk14 -->
+			<dependency>
+			    <groupId>org.slf4j</groupId>
+			    <artifactId>slf4j-jdk14</artifactId>
+			    <version>1.8.0-alpha2</version>
+			    <scope>test</scope>
+			</dependency>
+
+		<!-- spring -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-aop.jar</groupId> -->
+<!-- 			<artifactId>spring-aop.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-aop.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-beans.jar</groupId> -->
+<!-- 			<artifactId>spring-beans.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-beans.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-context-support.jar</groupId> -->
+<!-- 			<artifactId>spring-context-support.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-context-support.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-context.jar</groupId> -->
+<!-- 			<artifactId>spring-context.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-context.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-core.jar</groupId> -->
+<!-- 			<artifactId>spring-core.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-core.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-jdbc.jar</groupId> -->
+<!-- 			<artifactId>spring-jdbc.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-jdbc.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-jms.jar</groupId> -->
+<!-- 			<artifactId>spring-jms.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-jms.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-orm.jar</groupId> -->
+<!-- 			<artifactId>spring-orm.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-orm.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-security-core-2.0.4.jar</groupId> -->
+<!-- 			<artifactId>spring-security-core-2.0.4.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-security-core-2.0.4.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-security-core-tiger-2.0.4.jar</groupId> -->
+<!-- 			<artifactId>spring-security-core-tiger-2.0.4.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-security-core-tiger-2.0.4.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-test.jar</groupId> -->
+<!-- 			<artifactId>spring-test.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-test.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-tx.jar</groupId> -->
+<!-- 			<artifactId>spring-tx.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-tx.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-web.jar</groupId> -->
+<!-- 			<artifactId>spring-web.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-web.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring-webmvc.jar</groupId> -->
+<!-- 			<artifactId>spring-webmvc.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-webmvc.jar</systemPath> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>spring.jar</groupId> -->
+<!-- 			<artifactId>spring.jar</artifactId> -->
+<!-- 			<version>1.1.2</version> -->
+<!-- 			<scope>system</scope> -->
+<!-- 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring.jar</systemPath> -->
+<!-- 		</dependency> -->
+		<!-- spring 4.3.2 -->
+			<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>5.0.8.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>slf4j-jdk14-1.6.1.jar</groupId>
-			<artifactId>slf4j-jdk14-1.6.1.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/slf4j-jdk14-1.6.1.jar</systemPath>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>5.0.8.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>spring-aop.jar</groupId>
-			<artifactId>spring-aop.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-aop.jar</systemPath>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>5.0.8.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>spring-beans.jar</groupId>
-			<artifactId>spring-beans.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-beans.jar</systemPath>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>5.0.8.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>spring-context-support.jar</groupId>
-			<artifactId>spring-context-support.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-context-support.jar</systemPath>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>5.0.8.RELEASE</version>
+	
 		</dependency>
 		<dependency>
-			<groupId>spring-context.jar</groupId>
-			<artifactId>spring-context.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-context.jar</systemPath>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>5.0.8.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>spring-core.jar</groupId>
-			<artifactId>spring-core.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-core.jar</systemPath>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>5.0.8.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>spring-jdbc.jar</groupId>
-			<artifactId>spring-jdbc.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-jdbc.jar</systemPath>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>5.0.8.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>spring-jms.jar</groupId>
-			<artifactId>spring-jms.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-jms.jar</systemPath>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>5.0.8.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>spring-orm.jar</groupId>
-			<artifactId>spring-orm.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-orm.jar</systemPath>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>5.0.8.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>spring-security-core-2.0.4.jar</groupId>
-			<artifactId>spring-security-core-2.0.4.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-security-core-2.0.4.jar</systemPath>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>5.0.8.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>spring-security-core-tiger-2.0.4.jar</groupId>
-			<artifactId>spring-security-core-tiger-2.0.4.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-security-core-tiger-2.0.4.jar</systemPath>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<version>5.0.8.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>spring-test.jar</groupId>
-			<artifactId>spring-test.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-test.jar</systemPath>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>5.0.8.RELEASE</version>
 		</dependency>
 		<dependency>
-			<groupId>spring-tx.jar</groupId>
-			<artifactId>spring-tx.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-tx.jar</systemPath>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>
+			<version>5.0.8.RELEASE</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
 		<dependency>
-			<groupId>spring-web.jar</groupId>
-			<artifactId>spring-web.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-web.jar</systemPath>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>5.0.8.RELEASE</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.velocity/velocity -->
 		<dependency>
-			<groupId>spring-webmvc.jar</groupId>
-			<artifactId>spring-webmvc.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring-webmvc.jar</systemPath>
+		    <groupId>org.apache.velocity</groupId>
+		    <artifactId>velocity</artifactId>
+		    <version>1.7</version>
 		</dependency>
-		<dependency>
-			<groupId>spring.jar</groupId>
-			<artifactId>spring.jar</artifactId>
-			<version>1.1.2</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/spring.jar</systemPath>
-		</dependency>
+		<!-- spring end -->
 		<dependency>
 			<groupId>thumbelina.jar</groupId>
 			<artifactId>thumbelina.jar</artifactId>
