@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
-	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+		xmlns:global-method-security="http://www.springframework.org/schema/global-method-security" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                        http://www.springframework.org/schema/aop    
+                          http://www.springframework.org/schema/aop/spring-aop-3.1.xsd   
+                         http://www.springframework.org/schema/tx    
+                          http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+                          http://www.springframework.org/schema/context  
+                		http://www.springframework.org/schema/context/spring-context-3.1.xsd 
+                		">
 	<!-- 配置事务管理器 -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory"
@@ -30,8 +36,7 @@
 		<property name="maxInMemorySize" value="4096" />
 	</bean>
 	<!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
-	<bean id="velocityCongfig"
-		class="org.springframework.web.servlet.view.velocity.VelocityConfigurer">
+	<bean id="velocityCongfig" class="com.shopping.view.velocity.VelocityConfigurer">
 		<property name="resourceLoaderPath">
 			<value>/</value>
 		</property>
@@ -42,10 +47,10 @@
 			</props>
 		</property>
 	</bean>
-	<bean id="viewResolver"
-		class="org.springframework.web.servlet.view.velocity.VelocityViewResolver">
+<!-- 	<bean id="viewResolver" class="org.springframework.web.servlet.view.velocity.VelocityViewResolver"> -->
+	<bean id="viewResolver" class="com.shopping.view.velocity.VelocityViewResolver">
 		<property name="viewClass"
-			value="org.springframework.web.servlet.view.velocity.VelocityView" />
+			value="com.shopping.view.velocity.util.VelocityView" />
 		<property name="contentType">
 			<value>text/html;charset=UTF-8</value>
 		</property>
@@ -54,13 +59,12 @@
 	<context:property-placeholder location="classpath:jdbc.properties" />
 	<!--配置velocity engine默认路径-->
 	<bean id="velocityEngine"
-		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		class="com.shopping.view.velocity.VelocityEngineFactoryBean">
 		<property name="resourceLoaderPath" value="/velocity/"></property>
 	</bean>
 	<!-- 配置数据源 -->
-	<bean id="dataSource"
-		class="org.apache.commons.dbcp.BasicDataSource"
-		destroy-method="close">
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+<!-- 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"> -->
 		<property name="driverClassName" value="${driverClassName}" />
 		<property name="url" value="${url}" />
 		<property name="username" value="${username}" />
@@ -119,7 +123,10 @@
 	
 	<bean id="sessionFactory" factory-bean="entityManagerFactory" factory-method="getSessionFactory" />
 	
-	<bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor" autowire="byName">
+<!-- 	<bean id="hibernateInterceptor" class="org.springframework.orm.hibernate3.HibernateInterceptor" autowire="byName"> -->
+<!-- 		<property name="sessionFactory" ref="sessionFactory"></property> -->
+<!-- 	</bean> -->
+	<bean id="hibernateInterceptor" class="org.springframework.orm.hibernate5.support.OpenSessionInterceptor" autowire="byName">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
 	<aop:config>
@@ -134,8 +141,8 @@
 		<property name="targetMethod" value="execute" />
 		<property name="concurrent" value="false" />
 	</bean>
-	<bean id="stat_cronTrigger"
-		class="org.springframework.scheduling.quartz.CronTriggerBean">
+<!-- 	<bean id="stat_cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean"> -->
+	<bean id="stat_cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="statTask" />
 		<property name="cronExpression" value="0 */30 * * * ?" />
 	</bean>
@@ -145,8 +152,8 @@
 		<property name="targetMethod" value="execute" />
 		<property name="concurrent" value="false" />
 	</bean>
-	<bean id="job_cronTrigger"
-		class="org.springframework.scheduling.quartz.CronTriggerBean">
+<!-- 	<bean id="job_cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean"> -->
+	<bean id="job_cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
 		<property name="jobDetail" ref="jobTask" />
 		<property name="cronExpression" value="1 0 0 * * ?" />
 	</bean>

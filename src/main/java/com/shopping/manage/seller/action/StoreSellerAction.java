@@ -1,53 +1,55 @@
  package com.shopping.manage.seller.action;
  
- import com.shopping.core.annotation.SecurityMapping;
- import com.shopping.core.mv.JModelAndView;
- import com.shopping.core.security.support.SecurityUserHolder;
- import com.shopping.core.tools.CommUtil;
- import com.shopping.core.tools.QRCodeEncoderHandler;
- import com.shopping.core.tools.WebForm;
- import com.shopping.foundation.domain.Accessory;
- import com.shopping.foundation.domain.Area;
- import com.shopping.foundation.domain.Store;
- import com.shopping.foundation.domain.StoreClass;
- import com.shopping.foundation.domain.StoreGrade;
- import com.shopping.foundation.domain.StoreGradeLog;
- import com.shopping.foundation.domain.StoreSlide;
- import com.shopping.foundation.domain.SysConfig;
- import com.shopping.foundation.domain.User;
- import com.shopping.foundation.service.IAccessoryService;
- import com.shopping.foundation.service.IAreaService;
- import com.shopping.foundation.service.IRoleService;
- import com.shopping.foundation.service.IStoreClassService;
- import com.shopping.foundation.service.IStoreGradeLogService;
- import com.shopping.foundation.service.IStoreGradeService;
- import com.shopping.foundation.service.IStoreService;
- import com.shopping.foundation.service.IStoreSlideService;
- import com.shopping.foundation.service.ISysConfigService;
- import com.shopping.foundation.service.IUserConfigService;
- import com.shopping.foundation.service.IUserService;
- import com.shopping.view.web.tools.AreaViewTools;
- import com.shopping.view.web.tools.StoreViewTools;
  import java.io.File;
- import java.io.IOException;
- import java.math.BigDecimal;
- import java.util.Date;
- import java.util.HashMap;
- import java.util.List;
- import java.util.Map;
- import java.util.Set;
- import javax.servlet.ServletContext;
- import javax.servlet.http.HttpServletRequest;
- import javax.servlet.http.HttpServletResponse;
- import javax.servlet.http.HttpSession;
- import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.security.Authentication;
- import org.springframework.security.context.SecurityContext;
- import org.springframework.security.context.SecurityContextHolder;
- import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+// import org.springframework.security.Authentication;
+// import org.springframework.security.context.SecurityContext;
+// import org.springframework.security.context.SecurityContextHolder;
+// import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
  import org.springframework.stereotype.Controller;
- import org.springframework.web.bind.annotation.RequestMapping;
- import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.shopping.core.annotation.SecurityMapping;
+import com.shopping.core.mv.JModelAndView;
+import com.shopping.core.security.support.SecurityUserHolder;
+import com.shopping.core.tools.CommUtil;
+import com.shopping.core.tools.QRCodeEncoderHandler;
+import com.shopping.core.tools.WebForm;
+import com.shopping.foundation.domain.Accessory;
+import com.shopping.foundation.domain.Area;
+import com.shopping.foundation.domain.Store;
+import com.shopping.foundation.domain.StoreClass;
+import com.shopping.foundation.domain.StoreGrade;
+import com.shopping.foundation.domain.StoreGradeLog;
+import com.shopping.foundation.domain.StoreSlide;
+import com.shopping.foundation.domain.User;
+import com.shopping.foundation.service.IAccessoryService;
+import com.shopping.foundation.service.IAreaService;
+import com.shopping.foundation.service.IRoleService;
+import com.shopping.foundation.service.IStoreClassService;
+import com.shopping.foundation.service.IStoreGradeLogService;
+import com.shopping.foundation.service.IStoreGradeService;
+import com.shopping.foundation.service.IStoreService;
+import com.shopping.foundation.service.IStoreSlideService;
+import com.shopping.foundation.service.ISysConfigService;
+import com.shopping.foundation.service.IUserConfigService;
+import com.shopping.foundation.service.IUserService;
+import com.shopping.view.web.tools.AreaViewTools;
+import com.shopping.view.web.tools.StoreViewTools;
  
  @Controller
  public class StoreSellerAction
@@ -273,10 +275,8 @@
          user.getRoles().addAll(roles);
          this.userService.update(user);
  
-         Authentication authentication = new UsernamePasswordAuthenticationToken(
-           SecurityContextHolder.getContext().getAuthentication().getPrincipal(), 
-           SecurityContextHolder.getContext().getAuthentication().getCredentials(), 
-           user.get_common_Authorities());
+//         Authentication authentication = new UsernamePasswordAuthenticationToken( SecurityContextHolder.getContext().getAuthentication().getPrincipal(),  SecurityContextHolder.getContext().getAuthentication().getCredentials(), user.get_common_Authorities());
+         Authentication authentication = new UsernamePasswordAuthenticationToken( SecurityContextHolder.getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext().getAuthentication().getCredentials());
          SecurityContextHolder.getContext().setAuthentication(authentication);
          mv.addObject("op_title", "店铺申请成功");
        } else {

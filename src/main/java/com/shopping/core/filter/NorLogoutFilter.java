@@ -1,21 +1,24 @@
 package com.shopping.core.filter;
 
 
-import com.shopping.core.tools.CommUtil;
-import com.shopping.foundation.domain.SysLog;
-import com.shopping.foundation.domain.User;
-import com.shopping.foundation.service.ISysLogService;
-import com.shopping.foundation.service.IUserService;
 import java.io.IOException;
 import java.util.Date;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.ui.logout.LogoutFilter;
-import org.springframework.security.ui.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+
+import com.shopping.core.tools.CommUtil;
+import com.shopping.foundation.domain.SysLog;
+import com.shopping.foundation.domain.User;
+import com.shopping.foundation.service.ISysLogService;
+import com.shopping.foundation.service.IUserService;
 
 public class NorLogoutFilter extends LogoutFilter
 {
@@ -60,7 +63,7 @@ public class NorLogoutFilter extends LogoutFilter
         saveLog(request);
       }
     }
-    super.doFilterHttp(request, response, chain);
+    super.doFilter(request, response, chain);
   }
 
   protected boolean requiresLogout(HttpServletRequest request, HttpServletResponse response)
@@ -70,13 +73,15 @@ public class NorLogoutFilter extends LogoutFilter
 
   protected String determineTargetUrl(HttpServletRequest request, HttpServletResponse response)
   {
-    return super.determineTargetUrl(request, response);
+//    return super.determineTargetUrl(request, response);
+    return super.toString();
   }
 
   protected void sendRedirect(HttpServletRequest request, HttpServletResponse response, String url)
     throws IOException
   {
-    super.sendRedirect(request, response, url);
+//    super.sendRedirect(request, response, url);
+	  super.requiresLogout(request, response);
   }
 
   public void setFilterProcessesUrl(String filterProcessesUrl)
@@ -86,21 +91,25 @@ public class NorLogoutFilter extends LogoutFilter
 
   protected String getLogoutSuccessUrl()
   {
-    return super.getLogoutSuccessUrl();
+//    return super.getLogoutSuccessUrl();
+    return "baidu.com";
   }
 
   protected String getFilterProcessesUrl()
   {
-    return super.getFilterProcessesUrl();
+//    return super.getFilterProcessesUrl();
+	  return "baidu.com";
   }
 
   public void setUseRelativeContext(boolean useRelativeContext)
   {
-    super.setUseRelativeContext(useRelativeContext);
+//    super.setUseRelativeContext(useRelativeContext);
+	  System.out.println("setUseRelativeContext");
   }
 
   public int getOrder()
   {
-    return super.getOrder();
+//    return super.getOrder();
+	  return 110;
   }
 }

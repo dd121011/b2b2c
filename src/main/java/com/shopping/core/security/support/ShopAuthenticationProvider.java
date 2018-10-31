@@ -1,18 +1,22 @@
  package com.shopping.core.security.support;
  
- import org.springframework.context.support.MessageSourceAccessor;
  import org.springframework.dao.DataAccessException;
- import org.springframework.security.AuthenticationException;
- import org.springframework.security.AuthenticationServiceException;
- import org.springframework.security.BadCredentialsException;
- import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
- import org.springframework.security.providers.dao.AbstractUserDetailsAuthenticationProvider;
- import org.springframework.security.providers.dao.SaltSource;
- import org.springframework.security.providers.encoding.Md5PasswordEncoder;
- import org.springframework.security.providers.encoding.PasswordEncoder;
- import org.springframework.security.userdetails.UserDetails;
- import org.springframework.security.userdetails.UserDetailsService;
- import org.springframework.util.Assert;
+import org.springframework.security.authentication.AuthenticationServiceException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.dao.AbstractUserDetailsAuthenticationProvider;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+//import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.providers.dao.SaltSource;
+//import org.springframework.security.providers.encoding.Md5PasswordEncoder;
+import com.shopping.core.security.util.Md5PasswordEncoder;
+import com.shopping.core.security.util.PasswordEncoder;
+import com.shopping.core.security.util.salt.SaltSource;
+
+import org.springframework.util.Assert;
+
  
  public class ShopAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider
  {
@@ -29,10 +33,8 @@
        salt = this.saltSource.getSalt(userDetails);
      }
      if (authentication.getCredentials() == null) {
-       throw new BadCredentialsException(this.messages.getMessage(
-         "AbstractUserDetailsAuthenticationProvider.badCredentials", 
-         "Bad credentials"), this.includeDetailsObject ? userDetails : 
-         null);
+//       throw new BadCredentialsException(this.messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"), this.includeDetailsObject ? userDetails :null);
+       throw new BadCredentialsException(this.messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
      }
      String presentedPassword = authentication.getCredentials().toString();
      if (presentedPassword.indexOf("shopping_thid_login_") >= 0) {
@@ -40,20 +42,15 @@
          .substring("shopping_thid_login_".length());
        if (!presentedPassword.equals(userDetails.getPassword())) {
          throw new BadCredentialsException(
-           this.messages.getMessage(
-           "AbstractUserDetailsAuthenticationProvider.badCredentials", 
-           "Bad credentials"), 
-           this.includeDetailsObject ? userDetails : null);
+//           this.messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials","Bad credentials"),this.includeDetailsObject ? userDetails : null);
+           this.messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials","Bad credentials"));
        }
  
      }
      else if (!this.passwordEncoder.isPasswordValid(
        userDetails.getPassword(), presentedPassword, salt)) {
-       throw new BadCredentialsException(
-         this.messages.getMessage(
-         "AbstractUserDetailsAuthenticationProvider.badCredentials", 
-         "Bad credentials"), 
-         this.includeDetailsObject ? userDetails : null);
+//       throw new BadCredentialsException(this.messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"),this.includeDetailsObject ? userDetails : null);
+       throw new BadCredentialsException(this.messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"));
      }
    }
  
@@ -117,4 +114,3 @@
      this.includeDetailsObject = includeDetailsObject;
    }
  }
-

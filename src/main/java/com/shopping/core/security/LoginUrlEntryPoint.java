@@ -1,15 +1,16 @@
  package com.shopping.core.security;
  
  import java.io.IOException;
- import javax.servlet.ServletException;
- import javax.servlet.ServletRequest;
- import javax.servlet.ServletResponse;
- import javax.servlet.http.HttpServletRequest;
- import javax.servlet.http.HttpServletResponse;
- import javax.servlet.http.HttpSession;
- import org.springframework.security.AuthenticationException;
- import org.springframework.security.ui.AuthenticationEntryPoint;
- import org.springframework.stereotype.Component;
+
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
  
  @Component
  public class LoginUrlEntryPoint
@@ -35,5 +36,12 @@
      }
      response.sendRedirect(targetUrl);
    }
+
+@Override
+public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+		throws IOException, ServletException {
+	// TODO Auto-generated method stub
+	
+}
  }
 

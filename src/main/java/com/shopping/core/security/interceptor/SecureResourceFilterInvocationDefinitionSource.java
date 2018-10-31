@@ -1,22 +1,27 @@
  package com.shopping.core.security.interceptor;
  
- import com.shopping.core.tools.CommUtil;
  import java.util.Collection;
- import java.util.Iterator;
- import java.util.Map;
- import java.util.Map.Entry;
- import java.util.Set;
- import javax.servlet.ServletContext;
- import javax.servlet.http.HttpServletRequest;
- import javax.servlet.http.HttpSession;
- import org.springframework.beans.factory.InitializingBean;
- import org.springframework.security.ConfigAttributeDefinition;
- import org.springframework.security.ConfigAttributeEditor;
- import org.springframework.security.intercept.web.FilterInvocation;
- import org.springframework.security.intercept.web.FilterInvocationDefinitionSource;
- import org.springframework.security.util.AntUrlPathMatcher;
- import org.springframework.security.util.RegexUrlPathMatcher;
- import org.springframework.security.util.UrlMatcher;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+
+import org.springframework.beans.factory.InitializingBean;
+//import org.springframework.security.ConfigAttributeDefinition;
+//import org.springframework.security.ConfigAttributeEditor;
+//import org.springframework.security.intercept.web.FilterInvocationDefinitionSource;
+//import org.springframework.security.util.AntUrlPathMatcher;
+//import org.springframework.security.util.RegexUrlPathMatcher;
+//import org.springframework.security.util.UrlMatcher;
+import org.springframework.security.web.FilterInvocation;
+
+import com.shopping.core.security.util.url.AntUrlPathMatcher;
+import com.shopping.core.security.util.url.ConfigAttributeDefinition;
+import com.shopping.core.security.util.url.ConfigAttributeEditor;
+import com.shopping.core.security.util.url.FilterInvocationDefinitionSource;
+import com.shopping.core.security.util.url.RegexUrlPathMatcher;
+import com.shopping.core.security.util.url.UrlMatcher;
+import com.shopping.core.tools.CommUtil;
  
  public class SecureResourceFilterInvocationDefinitionSource
    implements FilterInvocationDefinitionSource, InitializingBean

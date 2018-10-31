@@ -2,7 +2,8 @@
  
  import java.math.BigDecimal;
  import java.util.ArrayList;
- import java.util.Date;
+import java.util.Collection;
+import java.util.Date;
  import java.util.HashMap;
  import java.util.List;
  import java.util.Map;
@@ -21,12 +22,15 @@
  import org.apache.commons.lang.StringUtils;
  import org.hibernate.annotations.Cache;
  import org.hibernate.annotations.CacheConcurrencyStrategy;
- import org.springframework.security.GrantedAuthority;
- import org.springframework.security.GrantedAuthorityImpl;
- import org.springframework.security.userdetails.UserDetails;
+import org.springframework.security.core.GrantedAuthority;
+// import org.springframework.security.GrantedAuthority;
+// import org.springframework.security.GrantedAuthorityImpl;
+// import org.springframework.security.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.shopping.core.annotation.Lock;
 import com.shopping.core.domain.IdEntity;
+import com.shopping.core.security.util.user.GrantedAuthorityImpl;
  
  @Cache(usage=CacheConcurrencyStrategy.READ_WRITE)
  @Entity
@@ -133,7 +137,8 @@ import com.shopping.core.domain.IdEntity;
    private int user_credit;
  
    @Transient
-   private GrantedAuthority[] authorities = new GrantedAuthority[0];
+//   private GrantedAuthority[] authorities = new GrantedAuthority[0];
+   Collection<? extends GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
    private String qq_openid;
    private String sina_openid;
 
@@ -734,13 +739,29 @@ import com.shopping.core.domain.IdEntity;
      this.WW = ww;
    }
  
-   public GrantedAuthority[] getAuthorities() {
-     return this.authorities;
-   }
+//   public GrantedAuthority[] getAuthorities() {
+//     return this.authorities;
+//   }
  
-   public void setAuthorities(GrantedAuthority[] authorities) {
-     this.authorities = authorities;
+//   public void setAuthorities(GrantedAuthority[] authorities) {
+//     this.authorities = authorities;
+//   }
+   public void setAuthorities(GrantedAuthority[] grantedAuthorities) {
+	   System.out.println("user.java ====setAuthorities");
+//	   this.authorities = grantedAuthorities;
    }
+	   @Override
+	   public Collection<? extends GrantedAuthority> getAuthorities() {
+		   // TODO Auto-generated method stub
+	//		List<GrantedAuthority> authorities = new ArrayList<>();
+	//		for (Role role : roles) {
+	//			authorities.add(new SimpleGrantedAuthority(role.getName()));
+	//		}
+		   System.out.println("--------------authorities-------------------------");
+		   System.out.println(authorities.size());
+		   System.out.println("--------------authorities-------------------------");
+		   return this.authorities;
+	   }
  
    public int getGold() {
      return this.gold;
@@ -813,9 +834,5 @@ import com.shopping.core.domain.IdEntity;
    public void setStore_quick_menu(String store_quick_menu) {
      this.store_quick_menu = store_quick_menu;
    }
+
  }
-
-
-
- 
- 

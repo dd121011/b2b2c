@@ -1,12 +1,15 @@
  package com.shopping.core.tools;
  
  import java.io.StringWriter;
- import java.util.Map;
- import org.apache.velocity.app.VelocityEngine;
- import org.apache.velocity.exception.VelocityException;
- import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.stereotype.Component;
- import org.springframework.ui.velocity.VelocityEngineUtils;
+import java.util.Map;
+
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.exception.VelocityException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+// import org.springframework.ui.velocity.VelocityEngineUtils;
+
+import com.shopping.core.tools.util.VelocityEngineUtils;
  
  @Component
  public class TemplateEngine

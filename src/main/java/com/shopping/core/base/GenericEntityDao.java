@@ -1,275 +1,406 @@
 package com.shopping.core.base;
 
-import com.easyjf.util.CommUtil;
-import com.shopping.core.exception.CanotRemoveObjectException;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceException;
+import javax.persistence.FlushModeType;
+import javax.persistence.LockModeType;
 import javax.persistence.Query;
-import org.springframework.orm.jpa.JpaCallback;
-import org.springframework.orm.jpa.JpaTemplate;
-import org.springframework.orm.jpa.support.JpaDaoSupport;
+//import org.springframework.orm.jpa.JpaCallback;
+//import org.springframework.orm.jpa.JpaTemplate;
+//import org.springframework.orm.jpa.support.JpaDaoSupport;
+import javax.persistence.StoredProcedureQuery;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
+import javax.persistence.metamodel.Metamodel;
 
-public class GenericEntityDao extends JpaDaoSupport
+public class GenericEntityDao implements EntityManager
 {
-  public Object get(Class clazz, Serializable id)
-  {
-    if (id == null)
-      return null;
-    return getJpaTemplate().find(clazz, id);
-  }
+	
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+		
+	}
 
-  public List<Object> find( Class clazz, final String queryStr, final Map params, final int begin, final int max)
-  {
-    final Class claz = clazz;
-    List ret = (List)getJpaTemplate().execute( new JpaCallback()
-    {
-    	/*private Class claz;
-    	private String queryStr;
-    	private Map params;
-    	private int begin;
-    	private int max;
-    	public JpaCallback(Class clazz, String queryStr, Map params, int begin, int max){
-    		this.claz =claz;
-    		this.queryStr = queryStr;
-    		this.params = params;
-    		this.begin =begin;
-    		this.max =max;
-    	}*/
-      public Object doInJpa(EntityManager em) throws PersistenceException {
-    	
-        String clazzName = claz.getName();
-        StringBuffer sb = new StringBuffer("select obj from ");
-        sb.append(clazzName).append(" obj").append(" where ")
-          .append(queryStr);
-        Query query = em.createQuery(sb.toString());
-        for (Iterator localIterator = params.keySet().iterator(); localIterator.hasNext(); ) { Object key = localIterator.next();
-          query.setParameter(key.toString(), params.get(key));
-        }
-        if ((begin >= 0) && (max > 0)) {
-          query.setFirstResult(begin);
-          query.setMaxResults(max);
-        }
-        query.setHint("org.hibernate.cacheable", Boolean.valueOf(true));
-        return query.getResultList();
-      }
-    });
-    if ((ret != null) && (ret.size() >= 0)) {
-      return ret;
-    }
-    return new ArrayList();
-  }
+	@Override
+	public void close() {
+		// TODO Auto-generated method stub
+		
+	}
 
-  public List query( final String queryStr, final Map params, final int begin, final int max)
-  {
-    List list = (List)getJpaTemplate().execute(new JpaCallback()
-    {
-      public Object doInJpa(EntityManager em) throws PersistenceException
-      {
-        Query query = em.createQuery(queryStr);
-        if ((params != null) && (params.size() > 0)) {
-          for (Iterator localIterator = params.keySet().iterator(); localIterator.hasNext(); ) { Object key = localIterator.next();
-            query.setParameter(key.toString(), params.get(key));
-          }
-        }
-        if ((begin >= 0) && (max > 0)) {
-          query.setFirstResult(begin);
-          query.setMaxResults(max);
-        }
-        query.setHint("org.hibernate.cacheable", Boolean.valueOf(true));
-        return query.getResultList();
-      }
-    });
-    if ((list != null) && (list.size() > 0)) {
-      return list;
-    }
-    return new ArrayList();
-  }
+	@Override
+	public boolean contains(Object arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-  public void remove(Class clazz, Serializable id)
-    throws CanotRemoveObjectException
-  {
-    Object object = get(clazz, id);
-    if (object != null)
-      try {
-        getJpaTemplate().remove(object);
-      } catch (Exception e) {
-        throw new CanotRemoveObjectException();
-      }
-  }
+	@Override
+	public <T> EntityGraph<T> createEntityGraph(Class<T> arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public void save(Object instance)
-  {
-    getJpaTemplate().persist(instance);
-  }
+	@Override
+	public EntityGraph<?> createEntityGraph(String arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public Object getBy(Class clazz,final String propertyName,final Object value)
-  {
-    final Class claz = clazz;
-    List ret = (List)getJpaTemplate().execute(new JpaCallback() {
-      public Object doInJpa(EntityManager em) throws PersistenceException {
-        String clazzName = claz.getName();
-        StringBuffer sb = new StringBuffer("select obj from ");
-        sb.append(clazzName).append(" obj");
-        Query query = null;
-        if ((propertyName != null) && (value != null)) {
-          sb.append(" where obj.").append(propertyName).append(" = :value");
-          query = em.createQuery(sb.toString()).setParameter("value", value);
-        } else {
-          query = em.createQuery(sb.toString());
-        }
-        query.setHint("org.hibernate.cacheable", Boolean.valueOf(true));
-        return query.getResultList();
-      }
-    });
-    if ((ret != null) && (ret.size() == 1))
-      return ret.get(0);
-    if ((ret != null) && (ret.size() > 1)) {
-      throw new IllegalStateException("worning  --more than one object find!!");
-    }
-    return null;
-  }
+	@Override
+	public Query createNamedQuery(String arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public List executeNamedQuery(final String queryName, final Object[] params, final int begin, final int max)
-  {
-    List ret = (List)getJpaTemplate().execute(new JpaCallback()
-    {
-      public Object doInJpa(EntityManager em) throws PersistenceException {
-        Query query = em.createNamedQuery(queryName);
-        int parameterIndex = 1;
-        if ((params != null) && (params.length > 0)) {
-          for (Object obj : params) {
-            query.setParameter(parameterIndex++, obj);
-          }
-        }
-        if ((begin >= 0) && (max > 0)) {
-          query.setFirstResult(begin);
-          query.setMaxResults(max);
-        }
-        query.setHint("org.hibernate.cacheable", Boolean.valueOf(true));
-        return query.getResultList();
-      }
-    });
-    if ((ret != null) && (ret.size() >= 0)) {
-      return ret;
-    }
-    return new ArrayList();
-  }
+	@Override
+	public <T> TypedQuery<T> createNamedQuery(String arg0, Class<T> arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public void update(Object instance)
-  {
-    getJpaTemplate().merge(instance);
-  }
+	@Override
+	public StoredProcedureQuery createNamedStoredProcedureQuery(String arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public List executeNativeNamedQuery(final String nnq) {
-    Object ret = getJpaTemplate().execute(new JpaCallback()
-    {
-      public Object doInJpa(EntityManager em) throws PersistenceException {
-        Query query = em.createNativeQuery(nnq);
-        return query.getResultList();
-      }
-    });
-    return (List)ret;
-  }
+	@Override
+	public Query createNativeQuery(String arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public List executeNativeQuery(final String nnq, final Map params, final int begin, final int max)
-  {
-    List ret = (List)getJpaTemplate().execute(new JpaCallback()
-    {
-      public Object doInJpa(EntityManager em) throws PersistenceException {
-        Query query = em.createNativeQuery(nnq);
-        int parameterIndex = 1;
-        if (params != null) {
-          Iterator its = params.keySet().iterator();
-          while (its.hasNext()) {
-            query.setParameter(CommUtil.null2String(its.next()), 
-              params.get(its.next()));
-          }
-        }
-        if ((begin >= 0) && (max > 0)) {
-          query.setFirstResult(begin);
-          query.setMaxResults(max);
-        }
+	@Override
+	public Query createNativeQuery(String arg0, Class arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-        return query.getResultList();
-      }
-    });
-    if ((ret != null) && (ret.size() >= 0)) {
-      return ret;
-    }
-    return new ArrayList();
-  }
+	@Override
+	public Query createNativeQuery(String arg0, String arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public List executeNativeQuery(final String nnq, final Object[] params, final int begin, final int max)
-  {
-    List ret = (List)getJpaTemplate().execute(new JpaCallback()
-    {
-      public Object doInJpa(EntityManager em) throws PersistenceException {
-        Query query = em.createNativeQuery(nnq);
-        int parameterIndex = 1;
-        if ((params != null) && (params.length > 0)) {
-          for (Object obj : params) {
-            query.setParameter(parameterIndex++, obj);
-          }
-        }
-        if ((begin >= 0) && (max > 0)) {
-          query.setFirstResult(begin);
-          query.setMaxResults(max);
-        }
+	@Override
+	public Query createQuery(String arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-        return query.getResultList();
-      }
-    });
-    if ((ret != null) && (ret.size() >= 0)) {
-      return ret;
-    }
-    return new ArrayList();
-  }
+	@Override
+	public <T> TypedQuery<T> createQuery(CriteriaQuery<T> arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public int executeNativeSQL(final String nnq)
-  {
-    Object ret = getJpaTemplate().execute(new JpaCallback()
-    {
-      public Object doInJpa(EntityManager em) throws PersistenceException {
-        Query query = em.createNativeQuery(nnq);
-        query.setHint("org.hibernate.cacheable", Boolean.valueOf(true));
-        return Integer.valueOf(query.executeUpdate());
-      }
-    });
-    return ((Integer)ret).intValue();
-  }
+	@Override
+	public Query createQuery(CriteriaUpdate arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public int batchUpdate(final String jpql, final Object[] params) {
-    Object ret = getJpaTemplate().execute(new JpaCallback()
-    {
-      public Object doInJpa(EntityManager em) throws PersistenceException {
-        Query query = em.createQuery(jpql);
-        int parameterIndex = 1;
-        if ((params != null) && (params.length > 0)) {
-          for (Object obj : params) {
-            query.setParameter(parameterIndex++, obj);
-          }
-        }
-        query.setHint("org.hibernate.cacheable", Boolean.valueOf(true));
-        return Integer.valueOf(query.executeUpdate());
-      }
-    });
-    return ((Integer)ret).intValue();
-  }
+	@Override
+	public Query createQuery(CriteriaDelete arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-  public void flush() {
-    getJpaTemplate().execute(new JpaCallback()
-    {
-      public Object doInJpa(EntityManager em) throws PersistenceException {
-        em.getTransaction().commit();
-        return null;
-      }
-    });
-  }
-}
+	@Override
+	public <T> TypedQuery<T> createQuery(String arg0, Class<T> arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StoredProcedureQuery createStoredProcedureQuery(String arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StoredProcedureQuery createStoredProcedureQuery(String arg0, Class... arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StoredProcedureQuery createStoredProcedureQuery(String arg0, String... arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void detach(Object arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public <T> T find(Class<T> arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		
+		return null;
+	}
+
+	@Override
+	public <T> T find(Class<T> arg0, Object arg1, Map<String, Object> arg2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <T> T find(Class<T> arg0, Object arg1, LockModeType arg2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <T> T find(Class<T> arg0, Object arg1, LockModeType arg2, Map<String, Object> arg3) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void flush() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public CriteriaBuilder getCriteriaBuilder() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object getDelegate() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EntityGraph<?> getEntityGraph(String arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <T> List<EntityGraph<? super T>> getEntityGraphs(Class<T> arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EntityManagerFactory getEntityManagerFactory() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FlushModeType getFlushMode() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LockModeType getLockMode(Object arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Metamodel getMetamodel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> getProperties() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <T> T getReference(Class<T> arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EntityTransaction getTransaction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isJoinedToTransaction() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean isOpen() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void joinTransaction() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void lock(Object arg0, LockModeType arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void lock(Object arg0, LockModeType arg1, Map<String, Object> arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public <T> T merge(T arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void persist(Object arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void refresh(Object arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void refresh(Object arg0, Map<String, Object> arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void refresh(Object arg0, LockModeType arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void refresh(Object arg0, LockModeType arg1, Map<String, Object> arg2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void remove(Object arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setFlushMode(FlushModeType arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setProperty(String arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public <T> T unwrap(Class<T> arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+//	 public int batchUpdate(final String jpql, final Object[] params) {
+//		    Object ret = getJpaTemplate().execute(new JpaCallback()
+//		    {
+//		      public Object doInJpa(EntityManager em) throws PersistenceException {
+//		        Query query = em.createQuery(jpql);
+//		        int parameterIndex = 1;
+//		        if ((params != null) && (params.length > 0)) {
+//		          for (Object obj : params) {
+//		            query.setParameter(parameterIndex++, obj);
+//		          }
+//		        }
+//		        query.setHint("org.hibernate.cacheable", Boolean.valueOf(true));
+//		        return Integer.valueOf(query.executeUpdate());
+//		      }
+//		    });
+//		    return ((Integer)ret).intValue();
+//		  }
+
+	public int batchUpdate(String jpql, Object[] params) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public List executeNamedQuery(String queryName, Object[] params, int begin, int max) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List executeNativeNamedQuery(String nnq) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List executeNativeQuery(String nnq, Object[] params, int begin, int max) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int executeNativeSQL(String nnq) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public <T> List find(Class<T> entityClass, String query, Map params, int begin, int max) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public <T> T get(Class<T> entityClass, Serializable id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public <T> T getBy(Class<T> entityClass, String propertyName, Object value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List query(String query, Map params, int begin, int max) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void save(Object newInstance) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void update(Object transientObject) {
+		// TODO Auto-generated method stub
+		
+	}
+	}

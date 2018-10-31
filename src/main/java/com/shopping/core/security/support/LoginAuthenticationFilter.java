@@ -3,23 +3,27 @@
  import java.io.IOException;
 import java.util.LinkedList;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.Authentication;
-import org.springframework.security.AuthenticationException;
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
-import org.springframework.security.ui.webapp.AuthenticationProcessingFilter;
-import org.springframework.security.util.TextUtils;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+//import org.springframework.security.ui.webapp.AuthenticationProcessingFilter;
+//import org.springframework.security.util.TextUtils;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.TextEscapeUtils;
 
+import com.shopping.core.security.util.TextUtils;
 import com.shopping.core.tools.CommUtil;
 import com.shopping.foundation.service.ISysConfigService;
 import com.shopping.uc.api.UCClient;
 import com.shopping.uc.api.XMLHelper;
  
- public class LoginAuthenticationFilter extends AuthenticationProcessingFilter
+ public class LoginAuthenticationFilter extends UsernamePasswordAuthenticationFilter 
  {
  
    @Autowired
@@ -53,7 +57,7 @@ import com.shopping.uc.api.XMLHelper;
          username, password);
        if ((session != null) || (getAllowSessionCreation())) {
          request.getSession().setAttribute("SPRING_SECURITY_LAST_USERNAME", 
-           TextUtils.escapeEntities(username));
+           TextEscapeUtils.escapeEntities(username));
        }
        setDetails(request, authRequest);
        return getAuthenticationManager().authenticate(authRequest);
@@ -89,14 +93,24 @@ import com.shopping.uc.api.XMLHelper;
    {
      request.getSession(false).removeAttribute("verify_code");
  
-     super.onSuccessfulAuthentication(request, response, authResult);
+     try {
+		super.unsuccessfulAuthentication(request, response, (AuthenticationException) authResult);
+	} catch (ServletException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
    }
  
    protected void onUnsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed)
      throws IOException
    {
      String uri = request.getRequestURI();
-     super.onUnsuccessfulAuthentication(request, response, failed);
+     try {
+		super.unsuccessfulAuthentication(request, response, failed);
+	} catch (ServletException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
    }
  
    private static String uc_Login(String username, String pws) {

@@ -1,13 +1,16 @@
  package com.shopping.manage.admin.tools;
  
- import com.shopping.core.tools.CommUtil;
- import com.shopping.foundation.domain.User;
- import com.shopping.foundation.service.IUserService;
  import java.util.ArrayList;
- import java.util.List;
- import org.springframework.beans.factory.annotation.Autowired;
- import org.springframework.security.concurrent.SessionRegistry;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.session.SessionRegistry;
+// import org.springframework.security.concurrent.SessionRegistry;
  import org.springframework.stereotype.Component;
+
+import com.shopping.core.tools.CommUtil;
+import com.shopping.foundation.domain.User;
+import com.shopping.foundation.service.IUserService;
  
  @Component
  public class UserTools
@@ -22,10 +25,10 @@
    public List<User> query_user()
    {
      List users = new ArrayList();
-     Object[] objs = this.sessionRegistry.getAllPrincipals();
-     for (int i = 0; i < objs.length; i++) {
+     List<Object> objs = this.sessionRegistry.getAllPrincipals();
+     for (int i = 0; i < objs.size(); i++) {
        User user = this.userSerivce.getObjByProperty("userName", 
-         CommUtil.null2String(objs[i]));
+         CommUtil.null2String(objs.get(i)));
  
        users.add(user);
      }

@@ -1,32 +1,36 @@
 package com.shopping.core.security.support;
  
  import java.io.IOException;
- import javax.servlet.FilterChain;
- import javax.servlet.ServletException;
- import javax.servlet.ServletRequest;
- import javax.servlet.ServletResponse;
- import javax.servlet.http.HttpServletRequest;
- import javax.servlet.http.HttpServletResponse;
- import javax.servlet.http.HttpSession;
- import org.apache.commons.logging.Log;
- import org.springframework.beans.factory.InitializingBean;
- import org.springframework.security.AccessDeniedException;
- import org.springframework.security.AuthenticationException;
- import org.springframework.security.AuthenticationTrustResolver;
- import org.springframework.security.AuthenticationTrustResolverImpl;
- import org.springframework.security.InsufficientAuthenticationException;
- import org.springframework.security.SpringSecurityException;
- import org.springframework.security.context.SecurityContext;
- import org.springframework.security.context.SecurityContextHolder;
- import org.springframework.security.ui.AccessDeniedHandler;
- import org.springframework.security.ui.AuthenticationEntryPoint;
- import org.springframework.security.ui.FilterChainOrder;
- import org.springframework.security.ui.SpringSecurityFilter;
- import org.springframework.security.ui.savedrequest.SavedRequest;
- import org.springframework.security.util.PortResolver;
- import org.springframework.security.util.PortResolverImpl;
- import org.springframework.security.util.ThrowableAnalyzer;
- import org.springframework.util.Assert;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.InitializingBean;
+//import org.springframework.security.SpringSecurityException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.security.ui.FilterChainOrder;
+//import org.springframework.security.ui.SpringSecurityFilter;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.PortResolver;
+import org.springframework.security.web.PortResolverImpl;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.savedrequest.DefaultSavedRequest;
+//import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.security.web.util.ThrowableAnalyzer;
+import org.springframework.util.Assert;
+
+import com.shopping.core.security.util.exception.SpringSecurityException;
+import com.shopping.core.security.util.filter.FilterChainOrder;
+import com.shopping.core.security.util.filter.SpringSecurityFilter;
  
  public class ShopSecurityExceptionFilter extends SpringSecurityFilter
    implements InitializingBean
@@ -101,19 +105,19 @@ package com.shopping.core.security.support;
      return this.portResolver;
    }
  
-   private void handleException(ServletRequest request, ServletResponse response, FilterChain chain, SpringSecurityException exception)
+//   private void handleException(ServletRequest request, ServletResponse response, FilterChain chain, SpringSecurityException exception)
+   private void handleException(ServletRequest request, ServletResponse response, FilterChain chain, Exception exception)
      throws IOException, ServletException
    {
      if ((exception instanceof AuthenticationException)) {
-       if (this.logger.isDebugEnabled()) {
-         this.logger
-           .debug(
-           "Authentication exception occurred; redirecting to authentication entry point", 
-           exception);
-       }
+//       if (this.logger.isDebugEnabled()) {
+//         this.logger
+//           .debug(
+//           "Authentication exception occurred; redirecting to authentication entry point", 
+//           exception);
+//       }
  
-       sendStartAuthentication(request, response, chain, 
-         (AuthenticationException)exception);
+       sendStartAuthentication(request, response, chain, (AuthenticationException)exception);
      } else if ((exception instanceof AccessDeniedException))
      {
        if (this.authenticationTrustResolver
@@ -140,8 +144,7 @@ package com.shopping.core.security.support;
              exception);
          }
  
-         this.accessDeniedHandler.handle(request, response, 
-           (AccessDeniedException)exception);
+//         this.accessDeniedHandler.handle(request, response,exception);
        }
      }
    }
@@ -150,13 +153,14 @@ package com.shopping.core.security.support;
      return this.createSessionAllowed;
    }
  
-   protected void sendStartAuthentication(ServletRequest request, ServletResponse response, FilterChain chain, AuthenticationException reason)
-     throws ServletException, IOException
+//   protected void sendStartAuthentication(ServletRequest request, ServletResponse response, FilterChain chain, AuthenticationException reason)
+//     throws ServletException, IOException
+     protected void sendStartAuthentication(ServletRequest request, ServletResponse response, FilterChain chain, AuthenticationException reason)
+    		 throws ServletException, IOException
    {
      HttpServletRequest httpRequest = (HttpServletRequest)request;
  
-     SavedRequest savedRequest = new SavedRequest(httpRequest, 
-       this.portResolver);
+     DefaultSavedRequest savedRequest = new DefaultSavedRequest(httpRequest,this.portResolver);
  
      if (this.logger.isDebugEnabled()) {
        this.logger
@@ -171,7 +175,7 @@ package com.shopping.core.security.support;
  
      SecurityContextHolder.getContext().setAuthentication(null);
  
-     this.authenticationEntryPoint.commence(httpRequest, response, reason);
+     this.authenticationEntryPoint.commence(httpRequest, (HttpServletResponse) response, reason);
    }
  
    public void setAccessDeniedHandler(AccessDeniedHandler accessDeniedHandler) {
